@@ -79,10 +79,21 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             refresh_library, hass, service_call, coordinator
         )
 
+    async def async_sort_queue_service(service_call):
+        await hass.async_add_executor_job(
+            sort_queue, hass, service_call, coordinator
+        )
+
     hass.services.async_register(
         DOMAIN,
         "refresh_library", 
         async_refresh_library_service
+    )
+
+    hass.services.async_register(
+        DOMAIN,
+        "sort_queue",
+        async_sort_queue_service
     )
 
 
@@ -110,6 +121,13 @@ def refresh_library(hass, service, coordinator):
     mode = service.data.get("mode", "scanFindNew")
     folderpath = service.data.get("folderpath", "")
     status = coordinator.tdarr.refreshLibrary(libraryid, mode, folderpath)
+    if "ERROR" in status:
+        _LOGGER.debug(status)
+        raise HomeAssistantError(status["ERROR"])
+
+def sort_queue(hass, service, coordinator):
+    mode = service.data.get("queue_sort_type", "sortDateOldest")
+    status = coordinator.tdarr.setSorting(mode)
     if "ERROR" in status:
         _LOGGER.debug(status)
         raise HomeAssistantError(status["ERROR"])
