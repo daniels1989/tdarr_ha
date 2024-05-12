@@ -20,7 +20,7 @@
             }
         }
     },
-        "options": {
+    "options": {
         "step": {
             "init": {
                 "data": {
@@ -29,5 +29,19 @@
                 "description": "Configure Server Options"
             }
         }
+    },
+    "selector": {
+        "queue_sort_type": {
+            "options": {
+                "sortDateOldest": "Oldest (Scanned)",
+                "sortDateNewest": "Newest (Scanned)",
+                "sortDateFileCreatedOldest": "Oldest (Created)",
+                "sortDateFileCreatedNewest": "Newest (Created)",
+                "sortDateFileModifiedOldest": "Oldest (Modified)",
+                "sortDateFileModifiedNewest": "Newest (Modified)",
+                "sortSizeSmallest": "Smallest",
+                "sortSizeLargest": "Largest"
+            }
+        }
     }
-  }
+}

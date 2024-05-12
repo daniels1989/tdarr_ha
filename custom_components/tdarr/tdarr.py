@@ -159,6 +159,25 @@ class Server(object):
         else:
             return "ERROR"
 
+    def setSorting(self, mode):
+        post = {
+            "data": {
+                "collection": "SettingsGlobalJSONDB",
+                "mode": "update",
+                "docID": "globalsettings",
+                "obj": {
+                    "queueSortType": mode
+                }
+            },
+            "timeout": 20000
+        }
+        r = requests.post(self.baseurl + 'cruddb', json = post)
+        if r.status_code == 200:
+            return "OK"
+        else:
+            return "ERROR"
+
+
     def refreshLibrary(self, libraryname, mode, folderpath):
         stats = self.getLibraryStats()
         libid = None
@@ -191,13 +210,3 @@ class Server(object):
             return {"SUCCESS"}
         else:
             return {"ERROR": r.text}
-
-
-
-            
-    
-
-
-    
-
-    
