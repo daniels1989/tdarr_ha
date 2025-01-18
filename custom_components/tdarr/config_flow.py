@@ -31,7 +31,7 @@ async def validate_input(hass: core.HomeAssistant, data):
 
     Data has the keys from DATA_SCHEMA with values provided by the user.
     """
-    
+
     tdarr = Server(data[SERVERIP], data[SERVERPORT], data[APIKEY])
 
     result = await hass.async_add_executor_job(tdarr.getSettings)
@@ -79,13 +79,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     @callback
     def async_get_options_flow(config_entry):
         """Get the options flow for this handler."""
-        return OptionsFlow(config_entry)
+        return OptionsFlowHandler()
 
-class OptionsFlow(config_entries.OptionsFlow):
-    def __init__(self, config_entry: config_entries.ConfigEntry):
-        """Initialize options flow."""
-        self.config_entry = config_entry
-
+class OptionsFlowHandler(config_entries.OptionsFlow):
     async def async_step_init(self, user_input=None):
         if user_input is not None:
             if SERVERIP in self.config_entry.data:
@@ -119,6 +115,3 @@ class InvalidAPIKEY(exceptions.HomeAssistantError):
 
 class AuthRequired(exceptions.HomeAssistantError):
     """Error to indicate Auth is required"""
-
-
-
