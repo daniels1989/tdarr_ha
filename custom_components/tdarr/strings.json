@@ -17,14 +17,28 @@
           }
       }
   },
-      "options": {
-      "step": {
-          "init": {
-              "data": {
-                  "update_interval": "Interval to poll Server (Seconds)"
-              },
-              "description": "Configure Server Options"
-          }
-      }
-  }
+    "options": {
+        "step": {
+            "init": {
+                "data": {
+                    "update_interval": "Interval to poll Server (Seconds)"
+                },
+                "description": "Configure Server Options"
+            }
+        }
+    },
+    "selector": {
+        "queue_sort_type": {
+            "options": {
+                "sortDateOldest": "Oldest (Scanned)",
+                "sortDateNewest": "Newest (Scanned)",
+                "sortDateFileCreatedOldest": "Oldest (Created)",
+                "sortDateFileCreatedNewest": "Newest (Created)",
+                "sortDateFileModifiedOldest": "Oldest (Modified)",
+                "sortDateFileModifiedNewest": "Newest (Modified)",
+                "sortSizeSmallest": "Smallest",
+                "sortSizeLargest": "Largest"
+            }
+        }
+    }
 }

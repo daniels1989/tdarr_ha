@@ -24,4 +24,23 @@ refresh_library:
           options:
             - scanFindNew
             - scanFresh
-
+sort_queue:
+  name: "Sort Queue"
+  description: "Change the transcode queue sorting"
+  fields:
+    queue_sort_type:
+      name: "Sort by"
+      required: true
+      default: "sortDateOldest"
+      selector:
+        select:
+          options:
+            - sortDateOldest
+            - sortDateNewest
+            - sortDateFileCreatedOldest
+            - sortDateFileCreatedNewest
+            - sortDateFileModifiedOldest
+            - sortDateFileModifiedNewest
+            - sortSizeSmallest
+            - sortSizeLargest
+          translation_key: queue_sort_type
