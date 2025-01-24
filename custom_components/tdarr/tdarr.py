@@ -5,12 +5,16 @@ _LOGGER = logging.getLogger(__name__)
 
 class Server(object):
     # Class representing a tdarr server
-    def __init__(self, url, port):
+    def __init__(self, url, port, apikey=""):
         self.url = url
         self.baseurl = 'http://' + self.url + ':' + port + '/api/v2/'
+        self.headers = {
+            'Content-Type': 'application/json',
+            'x-api-key': apikey
+        }
         
     def getNodes(self):
-        r = requests.get(self.baseurl + 'get-nodes')
+        r = requests.get(self.baseurl + 'get-nodes', headers=self.headers)
         if r.status_code == 200:
             result = r.json()
             return result
@@ -18,7 +22,7 @@ class Server(object):
             return "ERROR"
 
     def getStatus(self):
-        r = requests.get(self.baseurl + 'status')
+        r = requests.get(self.baseurl + 'status', headers=self.headers)
         if r.status_code == 200:
             result = r.json()
             return result
@@ -35,7 +39,7 @@ class Server(object):
                 },
             "timeout":1000
         }
-        r = requests.post(self.baseurl + 'cruddb', json = post)
+        r = requests.post(self.baseurl + 'cruddb', json = post, headers=self.headers)
         if r.status_code == 200:
             return r.json()
         else:
@@ -52,7 +56,7 @@ class Server(object):
                 },
             "timeout":1000
         }
-        r = requests.post(self.baseurl + 'client/staged', json = post)
+        r = requests.post(self.baseurl + 'client/staged', json = post, headers=self.headers)
         if r.status_code == 200:
             return r.json()
         else:
@@ -68,11 +72,11 @@ class Server(object):
                 },
             "timeout":1000
         }
-        r = requests.post(self.baseurl + 'cruddb', json = post)
+        r = requests.post(self.baseurl + 'cruddb', json = post, headers=self.headers)
         if r.status_code == 200:
             return r.json()
         else:
-            return "ERROR"
+            return {"message": r.text, "status_code": r.status_code, "status": "ERROR"}
         
     def pauseNode(self, nodeID, status):
 
@@ -88,7 +92,7 @@ class Server(object):
                     },
                     "timeout":20000
                 }
-            r = requests.post(self.baseurl + 'cruddb', json=data)
+            r = requests.post(self.baseurl + 'cruddb', json=data, headers=self.headers)
         elif nodeID == "ignoreSchedules":
             data = {
                 "data":{
@@ -101,7 +105,7 @@ class Server(object):
                     },
                     "timeout":20000
                 }
-            r = requests.post(self.baseurl + 'cruddb', json=data)
+            r = requests.post(self.baseurl + 'cruddb', json=data, headers=self.headers)
         else:
             data = {
                 "data": {
@@ -111,7 +115,7 @@ class Server(object):
                     }
                 }
             }
-            r = requests.post(self.baseurl + 'update-node', json=data)
+            r = requests.post(self.baseurl + 'update-node', json=data, headers=self.headers)
         if r.status_code == 200:
             return "OK"
         else:
@@ -162,7 +166,7 @@ class Server(object):
             }
         }
 
-        r = requests.post(self.baseurl + "scan-files", json=data)
+        r = requests.post(self.baseurl + "scan-files", json=data, headers=self.headers)
 
         if r.status_code == 200:
             _LOGGER.debug(r.text)
