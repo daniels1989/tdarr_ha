@@ -1,4 +1,6 @@
 ## **Changelog**
+### Version 1.18
+- Fixed HA warning message
 ### Version 1.17
 - Added disable schedules toggle
 - Add icons for certain switches
